@@ -47,9 +47,11 @@ server <- function(input, output, session) {
     NFrame <- data.frame(t = tSeq(), Nt = Nt())
     yMax <- 0.5*5^maxTime
     yRange <- list(0, yMax)
+    traceType <- if (tType()) "markers" else "lines"
     fig <- plot_ly(data = NFrame, type = "scatter", mode = "none") %>%
       add_trace(y = ~ Nt,
-                x = ~ t) %>%
+                x = ~ t,
+                mode = traceType) %>%
       layout(showlegend = FALSE,
              yaxis = list(range = yRange,
                           title = list(text = "N(t)")),
