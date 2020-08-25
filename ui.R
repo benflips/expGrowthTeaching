@@ -21,12 +21,12 @@ ui <- fluidPage(
                          choices = c("Discrete", "Continuous"), 
                          inline = TRUE),
             sliderInput("births",
-                        "Births (per capita)",
+                        label = "Births (per capita)",
                         min = 0,
                         max = 5,
                         value = 2),
             sliderInput("deaths",
-                        "Deaths (per capita)",
+                        label ="Deaths (per capita)",
                         min = 0,
                         max = 1,
                         value = 0.5)
@@ -34,7 +34,7 @@ ui <- fluidPage(
 
         # Show a plot of the generated distribution
         mainPanel(
-           plotOutput("popPlot")
+           plotlyOutput("popPlot")
         )
     )
 )

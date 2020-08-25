@@ -2,11 +2,21 @@ library(shiny)
 library(plotly)
 
 # Define server logic required to draw a histogram
-server <- function(input, output) {
+server <- function(input, output, session) {
   
   # identifies model type
   tType <- reactive({
-    input$timeType = "Discrete"
+    input$timeType == "Discrete"
+  })
+  
+  observe({
+    if (!tType()){
+      updateSelectizeInput(session, inputId = "births", label = "Birth rate (per capita)")
+      updateSelectizeInput(session, inputId = "deaths", label = "Death rate (per capita)")
+    } else {
+      updateSelectizeInput(session, inputId = "births", label = "Births (per capita)")
+      updateSelectizeInput(session, inputId = "deaths", label = "Deaths (per capita)")
+    }
   })
   
   # generates appropriate time sequence given time type
@@ -30,7 +40,7 @@ server <- function(input, output) {
   
   
   
-  output$popPlot <- renderPlot({
+  output$popPlot <- renderPlotly({
     
   })
 }
