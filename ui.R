@@ -28,12 +28,15 @@ ui <- fluidPage(
                         label = "Births (per capita)",
                         min = 0,
                         max = 5,
-                        value = 2),
+                        value = 2,
+                        step = 0.1),
             sliderInput("deaths",
                         label ="Deaths (per capita)",
                         min = 0,
                         max = 1,
-                        value = 0.5)
+                        value = 0.5,
+                        step = 0.1),
+            tableOutput("growthParameter")
         ),
 
         # Show a plot of the generated distribution

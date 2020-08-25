@@ -14,12 +14,22 @@ server <- function(input, output, session) {
   
   # update menu labels, given time type
   observe({
+    minMaxSel <- c(0, 5, 2)
+    lnMinMaxSel <- round(log(minMaxSel+0.01), 2)
     if (!tType()){
-      updateSelectizeInput(session, inputId = "births", label = "Birth rate (per capita)")
-      updateSelectizeInput(session, inputId = "deaths", label = "Death rate (per capita)")
+      updateSliderInput(session, inputId = "births", 
+                           label = "Birth rate (per capita)",
+                           min = lnMinMaxSel[1],
+                           max = lnMinMaxSel[2],
+                           value = lnMinMaxSel[3])
+      updateSliderInput(session, inputId = "deaths", label = "Death rate (per capita)")
     } else {
-      updateSelectizeInput(session, inputId = "births", label = "Births (per capita)")
-      updateSelectizeInput(session, inputId = "deaths", label = "Deaths (per capita)")
+      updateSliderInput(session, inputId = "births", 
+                           label = "Births (per capita)",
+                           min = minMaxSel[1],
+                           max = minMaxSel[2],
+                           value = minMaxSel[3])
+      updateSliderInput(session, inputId = "deaths", label = "Deaths (per capita)")
     }
   })
   
@@ -45,6 +55,19 @@ server <- function(input, output, session) {
       expGrowth(t = tSeq(), b = input$births, d = input$deaths)
     }
     
+  })
+  
+  # reports growth rate
+  output$growthParameter <- renderTable({
+    if (tType()){
+      vName <- "Lambda"
+      gVal <- lambdaCalc(b = input$births, d = input$deaths)
+    } else {
+      vName <- "r"
+      gVal <- rCalc(b = input$births, d = input$deaths)
+    }
+    names(gVal) <- vName
+    gVal
   })
   
   # main plot
