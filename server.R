@@ -1,14 +1,18 @@
 library(shiny)
 library(plotly)
+source("functions.R")
 
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
+  # maximum time horizon
+  maxTime <- 20
   
   # identifies model type
   tType <- reactive({
     input$timeType == "Discrete"
   })
   
+  # update menu labels, given time type
   observe({
     if (!tType()){
       updateSelectizeInput(session, inputId = "births", label = "Birth rate (per capita)")
@@ -38,10 +42,19 @@ server <- function(input, output, session) {
     
   })
   
-  
-  
+  # main plot
   output$popPlot <- renderPlotly({
-    
+    NFrame <- data.frame(t = tSeq(), Nt = Nt())
+    yMax <- 0.5*5^maxTime
+    yRange <- list(0, yMax)
+    fig <- plot_ly(data = NFrame, type = "scatter", mode = "none") %>%
+      add_trace(y = ~ Nt,
+                x = ~ t) %>%
+      layout(showlegend = FALSE,
+             yaxis = list(range = yRange,
+                          title = list(text = "N(t)")),
+             xaxis = list(title = list(text = "Time"))) %>%
+      config(displayModeBar = FALSE)
   })
 }
 
