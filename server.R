@@ -5,7 +5,7 @@ source("functions.R")
 # Define server logic required to draw a histogram
 server <- function(input, output, session) {
   # maximum time horizon
-  maxTime <- 20
+  maxTime <- 10
   
   # identifies model type
   tType <- reactive({
@@ -66,14 +66,13 @@ server <- function(input, output, session) {
       vName <- "r"
       gVal <- rCalc(b = input$births, d = input$deaths)
     }
-    names(gVal) <- vName
-    gVal
+    matrix(gVal, dimnames = list(NULL, vName))
   })
   
   # main plot
   output$popPlot <- renderPlotly({
     NFrame <- data.frame(t = tSeq(), Nt = Nt())
-    yMax <- 0.5*5^maxTime
+    yMax <- 5^(maxTime-2)
     yRange <- list(0, yMax)
     plotType <- "linear"
     if (logScale()){
