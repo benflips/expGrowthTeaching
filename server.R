@@ -32,6 +32,11 @@ server <- function(input, output, session) {
     }
   })
   
+  # identify if we are plotting on log scale or not
+  logScale <- reactive({
+    input$logScale == "Yes"
+  })
+  
   # Calculates N(t) vector, given time type
   Nt <- reactive({
     if (tType()){
@@ -47,6 +52,11 @@ server <- function(input, output, session) {
     NFrame <- data.frame(t = tSeq(), Nt = Nt())
     yMax <- 0.5*5^maxTime
     yRange <- list(0, yMax)
+    plotType <- "linear"
+    if (logScale()){
+      yRange <- list(log(0.01), log(yMax))
+      plotType <- "log"
+    }
     traceType <- if (tType()) "markers" else "lines"
     fig <- plot_ly(data = NFrame, type = "scatter", mode = "none") %>%
       add_trace(y = ~ Nt,
@@ -54,7 +64,8 @@ server <- function(input, output, session) {
                 mode = traceType) %>%
       layout(showlegend = FALSE,
              yaxis = list(range = yRange,
-                          title = list(text = "N(t)")),
+                          title = list(text = "N(t)"),
+                          type = plotType),
              xaxis = list(title = list(text = "Time"))) %>%
       config(displayModeBar = FALSE)
   })
