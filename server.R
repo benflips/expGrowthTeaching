@@ -58,8 +58,8 @@ server <- function(input, output, session) {
   # reports growth rate
   output$growthParameter <- renderTable({
     if (tType()){
-      vName <- "Lambda"
-      gVal <- lambdaCalc(b = input$births, d = input$deaths)
+      vName <- "R"
+      gVal <- RCalc(b = input$births, d = input$deaths)
     } else {
       vName <- "r"
       gVal <- rCalc(b = input$births, d = input$deaths)
