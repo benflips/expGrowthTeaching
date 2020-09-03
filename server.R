@@ -70,8 +70,6 @@ server <- function(input, output, session) {
   # main plot
   output$popPlot <- renderPlotly({
     NFrame <- data.frame(t = tSeq(), Nt = Nt())
-    yMax <- 5^(maxTime-5)
-    yRange <- list(0, yMax)
     plotType <- "linear"
     if (logScale()){
       yRange <- list(log(0.01), log(yMax))
@@ -83,8 +81,7 @@ server <- function(input, output, session) {
                 x = ~ t,
                 mode = traceType) %>%
       layout(showlegend = FALSE,
-             yaxis = list(range = yRange,
-                          title = list(text = "N(t)"),
+             yaxis = list(title = list(text = "N(t)"),
                           type = plotType),
              xaxis = list(title = list(text = "Time"))) %>%
       config(displayModeBar = FALSE)
