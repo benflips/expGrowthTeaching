@@ -5,9 +5,9 @@ expGrowth <- function(t, b, d, N0 = 1, r = b-d){
 }
 
 # Geometric growth general solution
-  # paramaterised either with birth and death rates (1+b)(1-d), or lambda
-geomGrowth <- function(t, b, d, N0 = 1, lambda = (1+b)*(1-d)){
-  lambda^t*N0
+  # paramaterised either with birth and death rates, or R
+geomGrowth <- function(t, b, d, N0 = 1, R = 1+b-d){
+  R^t*N0
 }
 
 # calculate R, given per capita birth, deaths R as in N_{t+1}=RN_t
