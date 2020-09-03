@@ -79,7 +79,9 @@ server <- function(input, output, session) {
     fig <- plot_ly(data = NFrame, type = "scatter", mode = "none") %>%
       add_trace(y = ~ Nt,
                 x = ~ t,
-                mode = traceType) %>%
+                mode = traceType,
+                hoverinfo = "text",
+                text = paste("t = ", NFrame$t, ": ", format(round(NFrame$Nt, 0), big.mark = ","), sep = "")) %>%
       layout(showlegend = FALSE,
              yaxis = list(title = list(text = "N(t)"),
                           type = plotType),
