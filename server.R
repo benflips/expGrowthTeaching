@@ -72,7 +72,8 @@ server <- function(input, output, session) {
     NFrame <- data.frame(t = tSeq(), Nt = Nt())
     plotType <- "linear"
     if (logScale()){
-      #yRange <- list(log(0.01), log(yMax))
+      yMax <- if (tType()) geomGrowth(maxTime, 5, 0) else expGrowth(maxTime, log(5), 0)
+      yRange <- list(log(0.01), log(yMax))
       plotType <- "log"
     }
     traceType <- if (tType()) "markers" else "lines"
