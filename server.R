@@ -72,7 +72,7 @@ server <- function(input, output, session) {
     NFrame <- data.frame(t = tSeq(), Nt = Nt())
     plotType <- "linear"
     if (logScale()){
-      yRange <- list(log(0.01), log(yMax))
+      #yRange <- list(log(0.01), log(yMax))
       plotType <- "log"
     }
     traceType <- if (tType()) "markers" else "lines"
