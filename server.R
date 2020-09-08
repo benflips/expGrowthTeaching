@@ -17,14 +17,14 @@ server <- function(input, output, session) {
     if (!tType()){
       updateSliderInput(session, inputId = "births", 
                            label = "Birth rate (per capita)",
-                           min = round(log(1),2),
+                           min = round(log(0.1),2),
                            max = round(log(5),2),
                            value = round(log(2),2))
       updateSliderInput(session, inputId = "deaths", label = "Death rate (per capita)")
     } else {
       updateSliderInput(session, inputId = "births", 
                            label = "Births (per capita)",
-                           min = 1,
+                           min = 0,
                            max = 5,
                            value = 2)
       updateSliderInput(session, inputId = "deaths", label = "Deaths (per capita)")
